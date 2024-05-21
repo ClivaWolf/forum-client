@@ -7,3 +7,23 @@
     max-width: 400px;
     margin: 10px;
 }
+
+.minimize-card {
+    height: auto;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .minimized {
+    height: 20px;
+    cursor: pointer;
+  }
+  
+  .minimized.card-content {
+    transform: scale(0); /* Скрываем контент карточки */
+    transition: transform 0.3s ease-out;
+  }
+  
+  .card-content {
+    transform: scale(1); /* Возвращаем контент карточки в нормальное состояние */
+  }

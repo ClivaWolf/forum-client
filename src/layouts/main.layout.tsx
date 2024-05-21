@@ -1,3 +1,4 @@
+import { Layout } from "antd";
 import Footer from "../widgets/footer";
 import Header from "../widgets/header";
 import NavBar from "../widgets/navBar";
@@ -8,9 +9,11 @@ function MainLayout(props: any) {
             <Header>
                 <NavBar></NavBar>
             </Header>
-            <div className="content">
-                {props.children}
-            </div>
+            <Layout className="layout">
+                <div className="content">
+                    {props.children}
+                </div>
+            </Layout>
             <Footer></Footer>
         </>
     );

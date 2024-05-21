@@ -1,15 +1,27 @@
 import { Button, Dropdown, Space } from "antd";
+import { useContext } from "react";
+import { ThemeContext } from "../shared/themeContext/context";
 
 function ThemePicker() {
-    let themeList = ['light', 'dark', 'neon'];
+
+    const themeObj = useContext(ThemeContext);
     
-    const items = themeList.map((theme) => ({
+    const themes = themeObj.themes;
+
+    const items = themes.map((theme: string) => ({
         key: theme,
-        // label: (<Button onClick={}> {theme}</Button>)
+        label: (
+            <Button
+                type={theme === themeObj.theme ? 'primary' : 'default'}
+                onClick={() => themeObj.setTheme(theme)}
+            >
+                {theme}
+            </Button>
+        ),
     }));
 
     return (
-        <Dropdown menu={{ items }}>
+        <Dropdown menu={{ items }}> 
             <a onClick={(e) => e.preventDefault()}>
                 <Space>
                     Hover me
