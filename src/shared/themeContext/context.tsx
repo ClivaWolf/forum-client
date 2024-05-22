@@ -6,4 +6,4 @@ interface ThemeContextType {
     themes: string[];
   }
 
-export const ThemeContext = createContext<ThemeContextType>({ theme: 'light', setTheme: () => {} , themes: ['light', 'dark']});
+export const ThemeContext = createContext<ThemeContextType>({ theme: 'dark', setTheme: () => {} , themes: ['dark']});

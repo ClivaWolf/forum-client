@@ -12,3 +12,8 @@
 .content {
   padding: 10px;
 }
+
+::selection{
+  background-color: #8b8b8b;
+  color: black;
+}

@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import MainLayout from "../../layouts/main.layout";
 import CardStyled from "../../entities/card";
 import Title from "../../shared/typography/title";
-import { Button, Card, ColorPicker, Input } from "antd";
+import { Button, Card, ColorPicker, Input, message, notification } from "antd";
 import MinimizeCard from "../../entities/card/minimizeCard";
 import MyColorPicker from "../../entities/myColorPicker";
+
+type MessageType = 'success' | 'info' | 'warning' | 'error';
 
 type ConfigStateType = {
     [key: string]: string;
@@ -14,6 +16,10 @@ function ThemeEditor() {
     const [themes, setThemes] = useState([]);
     const [themeConfig, setThemeConfig] = useState({ id: '' });
     const [configStates, setConfigStates] = useState<ConfigStateType>({});
+
+    const showNotification = (mess: string, type: MessageType) => {
+        message[type](mess);
+    };
 
     useEffect(() => {
         fetch('api/theme/names/all').then((response) => response.json())
@@ -37,7 +43,7 @@ function ThemeEditor() {
                     {themes.map((theme: string) => (
                         <Button key={theme}
                             onClick={() => {
-                                setThemeConfig({id:''});
+                                setThemeConfig({ id: '' });
                                 fetch('api/theme/byName/' + theme).then((response) => response.json()).then((data) => setThemeConfig(data))
                             }}
                         >{theme}</Button>
@@ -60,9 +66,9 @@ function ThemeEditor() {
                                 }}
                             />
                         ) : (
-                            <InputWithStart 
+                            <InputWithStart
                                 value={values}
-                                onChange={(e: any) => handleThemeConfig(keys, Number.isNaN(Number(e.target.value))? e.target.value : Number(e.target.value))}
+                                onChange={(e: any) => handleThemeConfig(keys, Number.isNaN(Number(e.target.value)) ? e.target.value : Number(e.target.value))}
                                 style={{
                                     marginLeft: '10px',
                                     minWidth: '250px',
@@ -76,7 +82,6 @@ function ThemeEditor() {
             <CardStyled>
                 <Button type="primary"
                     onClick={() => {
-                        console.log(themeConfig);
                         fetch('api/theme/' + themeConfig.id, {
                             method: 'PATCH',
                             headers: {
@@ -84,8 +89,20 @@ function ThemeEditor() {
                             },
                             body: JSON.stringify(themeConfig)
                         })
-                            .then((response) => response.json())
-                            .then((data) => console.log(data));
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                console.log(data);
+                                showNotification('Тема обновлена', 'success');
+                            })
+                            .catch((error) => {
+                                console.error('Произошла ошибка:', error);
+                                showNotification('Произошла ошибка при обновлении темы', 'error');
+                            });
                     }}
                 >Update</Button>
                 <Button type="default"
@@ -101,7 +118,7 @@ function ThemeEditor() {
                         })//.then(()=>document.location.reload());
 
                     }}>
-                Save as new</Button>
+                    Save as new</Button>
             </CardStyled>
         </MainLayout>
     );

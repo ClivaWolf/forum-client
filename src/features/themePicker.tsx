@@ -23,9 +23,7 @@ function ThemePicker() {
     return (
         <Dropdown menu={{ items }}> 
             <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                    Hover me
-                </Space>
+                <Button>Theme Picker</Button>
             </a>
         </Dropdown>
     );
