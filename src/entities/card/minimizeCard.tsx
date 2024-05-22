@@ -1,4 +1,4 @@
-import { Card } from "antd";
+import { Button, Card } from "antd";
 import styles from "./card.module.css"
 import { useState } from "react";
 
@@ -11,9 +11,9 @@ function MinimizeCard(props: any) {
     return (
 
         <div className={`custom-card ${isMinimized ? 'minimized' : ''}`}>
-            <button onClick={toggleMinimize}>
+            <Button onClick={toggleMinimize}>
                 {isMinimized ? 'Expand' : 'Minimize'}
-            </button>
+            </Button>
             {!isMinimized && <Card className={styles.card}>
                 {props.children}
             </Card>}

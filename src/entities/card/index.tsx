@@ -4,7 +4,7 @@ import styles from "./card.module.css"
 
 function CardStyled(props: any) {
     return ( 
-        <Card className={styles.card}>
+        <Card className={styles.card} {...props}>
             {props.children}
         </Card>
      );
